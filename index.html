@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Unlocked Door — Anwar BinUmer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f0e8;
+    --red: #d63c2f;
+    --amber: #e8860a;
+    --green: #1a7a4a;
+    --ink: #1c1c1c;
+    --muted: #6b6560;
+    --rule: #2e2e2e;
+    --highlight: #d63c2f14;
+    --mono: 'IBM Plex Mono', monospace;
+    --display: 'Syne', sans-serif;
+    --body: 'Lora', serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--body);
+    font-size: 18px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NOISE TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  .wrapper {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  header {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 1px;
+    background: var(--red);
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(48px, 8vw, 88px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+    color: var(--white);
+  }
+
+  h1 .accent {
+    color: var(--red);
+    display: block;
+  }
+
+  .subtitle {
+    font-family: var(--body);
+    font-size: 20px;
+    color: #b8b0a4;
+    font-style: italic;
+    margin-top: 24px;
+    max-width: 600px;
+    line-height: 1.5;
+  }
+
+  .meta {
+    display: flex;
+    gap: 32px;
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .meta-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .meta-value {
+    font-family: var(--display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  /* ── ALERT BANNER ── */
+  .alert {
+    background: var(--red);
+    margin: 48px 0;
+    padding: 20px 28px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .alert-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .alert p {
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--white);
+  }
+
+  .alert strong {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 64px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  section:last-of-type {
+    border-bottom: none;
+  }
+
+  .section-number {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-number::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+    max-width: 60px;
+  }
+
+  h2 {
+    font-family: var(--display);
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    color: var(--white);
+  }
+
+  h3 {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 40px 0 16px;
+    color: var(--white);
+  }
+
+  p {
+    color: #c8c0b4;
+    margin-bottom: 20px;
+  }
+
+  p:last-child { margin-bottom: 0; }
+
+  strong {
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  em {
+    color: #d4ccc0;
+  }
+
+  /* ── PULL QUOTE ── */
+  .pullquote {
+    border-left: 3px solid var(--red);
+    padding: 4px 0 4px 28px;
+    margin: 40px 0;
+  }
+
+  .pullquote p {
+    font-size: 22px;
+    line-height: 1.5;
+    font-style: italic;
+    color: var(--white);
+    margin: 0;
+  }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: #151515;
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--amber);
+    padding: 24px 28px;
+    margin: 32px 0;
+  }
+
+  .callout-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 10px;
+  }
+
+  .callout p {
+    font-size: 16px;
+    margin: 0;
+    color: #c0b8ac;
+  }
+
+  /* ── DATA TABLE ── */
+  .data-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 0;
+    border-top: 1px solid var(--rule);
+    padding: 16px 0;
+  }
+
+  .data-row:last-child {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .data-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    padding-right: 24px;
+    padding-top: 2px;
+  }
+
+  .data-value {
+    font-size: 16px;
+    color: #c8c0b4;
+    line-height: 1.5;
+  }
+
+  .data-value strong {
+    color: var(--white);
+  }
+
+  .data-value .unverified {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--amber);
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 6px;
+    border: 1px solid var(--amber);
+    vertical-align: middle;
+  }
+
+  .data-value .confirmed {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 6px;
+    border: 1px solid var(--green);
+    vertical-align: middle;
+  }
+
+  /* ── COMPONENT LIST ── */
+  .component {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 0 20px;
+    margin-bottom: 32px;
+    align-items: start;
+  }
+
+  .component-num {
+    font-family: var(--display);
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--rule);
+    line-height: 1;
+    padding-top: 4px;
+  }
+
+  .component-body h3 {
+    margin: 0 0 8px;
+    font-size: 18px;
+  }
+
+  .component-body p {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  /* ── MARKET TABLE ── */
+  .market-row {
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr;
+    gap: 16px;
+    padding: 16px 0;
+    border-top: 1px solid var(--rule);
+    align-items: start;
+  }
+
+  .market-row:last-child { border-bottom: 1px solid var(--rule); }
+
+  .market-product {
+    font-family: var(--display);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .market-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .market-verdict {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 3px 8px;
+    text-align: center;
+    align-self: start;
+  }
+
+  .verdict-partial {
+    background: #e8860a18;
+    color: var(--amber);
+    border: 1px solid var(--amber);
+  }
+
+  .verdict-no {
+    background: #d63c2f14;
+    color: var(--red);
+    border: 1px solid var(--red);
+  }
+
+  .market-why {
+    font-size: 14px;
+    color: #a09890;
+    line-height: 1.5;
+  }
+
+  /* ── OPEN QUESTIONS ── */
+  .question {
+    padding: 20px 0;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .question:last-child { border-bottom: 1px solid var(--rule); }
+
+  .question-marker {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--red);
+    padding-top: 2px;
+  }
+
+  .question p {
+    font-size: 16px;
+    margin: 0;
+    color: #c0b8ac;
+  }
+
+  /* ── CTA ── */
+  .cta-block {
+    background: #111;
+    border: 1px solid var(--rule);
+    padding: 48px;
+    margin-top: 0;
+    text-align: center;
+  }
+
+  .cta-block h2 {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+
+  .cta-block p {
+    max-width: 520px;
+    margin: 0 auto 32px;
+    font-size: 17px;
+  }
+
+  .cta-links {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .cta-link {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    padding: 12px 24px;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .cta-primary {
+    background: var(--red);
+    color: var(--white);
+  }
+
+  .cta-primary:hover { background: #c0322a; }
+
+  .cta-secondary {
+    border: 1px solid var(--rule);
+    color: #a09890;
+  }
+
+  .cta-secondary:hover {
+    border-color: var(--white);
+    color: var(--white);
+  }
+
+  /* ── AUTHOR ── */
+  .author-block {
+    padding: 48px 0;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+  }
+
+  .author-dot {
+    width: 48px;
+    height: 48px;
+    background: var(--red);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--white);
+    margin-top: 4px;
+  }
+
+  .author-name {
+    font-family: var(--display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .author-bio {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 32px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+    gap: 16px;
+  }
+
+  .footer-note {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  header, section, .cta-block {
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  section:nth-child(2) { animation-delay: 0.1s; }
+  section:nth-child(3) { animation-delay: 0.15s; }
+  section:nth-child(4) { animation-delay: 0.2s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .wrapper { padding: 0 20px; }
+    h1 { font-size: 48px; }
+    .market-row { grid-template-columns: 1fr; }
+    .market-verdict { width: fit-content; }
+    .data-row { grid-template-columns: 1fr; gap: 4px; }
+    .author-block { flex-direction: column; }
+    .cta-block { padding: 32px 24px; }
+    footer { flex-direction: column; align-items: flex-start; }
+    .meta { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="eyebrow">Field Notes — May 2026</div>
+
+    <h1>
+      The
+      <span class="accent">Unlocked</span>
+      Door
+    </h1>
+
+    <p class="subtitle">
+      ShinyHunters didn't break into Canvas. They walked in through the front door. 
+      Here's what that means — and what I think we need to build.
+    </p>
+
+    <div class="meta">
+      <div class="meta-item">
+        <span class="meta-label">Author</span>
+        <span class="meta-value">Anwar BinUmer</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Role</span>
+        <span class="meta-value">LMS Functional Analyst, ACU</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Published</span>
+        <span class="meta-value">8 May 2026</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Status</span>
+        <span class="meta-value" style="color: var(--red);">Live Incident</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ALERT -->
+  <div class="alert">
+    <span class="alert-icon">⚠</span>
+    <p>
+      <strong>Disclosure</strong>
+      I work inside an affected Canvas institution. Everything in here is my own analysis — not my employer's position. I'm writing this because I think the sector needs to hear from practitioners, not just vendors. I'll flag clearly what's confirmed fact and what's my inference. I'm not a security engineer. That's kind of the point.
+    </p>
+  </div>
+
+  <!-- SECTION 1: WHAT HAPPENED -->
+  <section>
+    <div class="section-number">01 — What happened</div>
+    <h2>Let's start with what we actually know</h2>
+
+    <p>On 30 April 2026, Instructure — the company behind Canvas LMS — was breached by a criminal extortion group called ShinyHunters. This is their <strong>second confirmed breach of the same company in eight months</strong>. September 2025 was via Salesforce. May 2026 is something else — still under forensic investigation.</p>
+
+    <p>Here's what Instructure has confirmed in writing. Here's what ShinyHunters claims. I'm keeping them separate because they are separate.</p>
+
+    <div style="margin: 32px 0;">
+      <div class="data-row">
+        <div class="data-label">Breach date</div>
+        <div class="data-value"><strong>30 April 2026</strong> <span class="confirmed">CONFIRMED</span></div>
+      </div>
+      <div class="data-row">
+        <div class="data-label">Data confirmed exposed</div>
+        <div class="data-value"><strong>Names, email addresses, student IDs, Canvas messages</strong> <span class="confirmed">CONFIRMED</span></div>
+      </div>
+      <div class="data-row">
+        <div class="data-label">Data confirmed NOT exposed</div>
+        <div class="data-value"><strong>Passwords, DOB, government IDs, financial data</strong> <span class="confirmed">CONFIRMED</span> — subject to ongoing forensics</div>
+      </div>
+      <div class="data-row">
+        <div class="data-label">Attack vector</div>
+        <div class="data-value"><strong>Not publicly disclosed.</strong> No CVE. No IOCs published. Instructure rotated all API application keys as primary containment action — consistent with credential/token compromise. <span class="unverified">INFERRED</span></div>
+      </div>
+      <div class="data-row">
+        <div class="data-label">Users affected (claimed)</div>
+        <div class="data-value">275 million <span class="unverified">SHINYHUNTERS CLAIM — UNVERIFIED</span></div>
+      </div>
+      <div class="data-row">
+        <div class="data-label">Data exfiltrated (claimed)</div>
+        <div class="data-value">3.65TB <span class="unverified">SHINYHUNTERS CLAIM — UNVERIFIED</span></div>
+      </div>
+      <div class="data-row">
+        <div class="data-label">Institutions (claimed)</div>
+        <div class="data-value">9,000 <span class="unverified">SHINYHUNTERS CLAIM — UNVERIFIED</span></div>
+      </div>
+      <div class="data-row">
+        <div class="data-label">Extortion deadline</div>
+        <div class="data-value"><strong>12 May 2026.</strong> Public data dump threatened if no payment. <span class="confirmed">CONFIRMED ON LEAK SITE</span></div>
+      </div>
+    </div>
+
+    <p>Treat ShinyHunters' numbers as a ceiling, not a floor. They inflate figures for leverage. What we know for certain is bad enough.</p>
+
+    <div class="pullquote">
+      <p>"Canvas has 50% of enrolled North American university students on a single platform. One in two. That's not a niche EdTech incident. That's infrastructure."</p>
+    </div>
+
+    <p>The verified scale: Canvas holds <strong>~39% of North American higher education institutions</strong> by count, and <strong>50% by enrolled student headcount</strong> — meaning roughly one in two North American university students touches this platform daily. Globally: 6,000+ institutions, 34 million learners. As of Spring 2025, Canvas now has greater market share than its next three competitors combined.</p>
+
+    <p>This matters because the blast radius of a breach isn't determined by the number of institutions. It's determined by the number of people. And this breach reached a lot of people.</p>
+  </section>
+
+  <!-- SECTION 2: THE REAL PROBLEM -->
+  <section>
+    <div class="section-number">02 — The actual problem</div>
+    <h2>They didn't pick the lock.<br/>The door was open.</h2>
+
+    <p>Here's the thing that bothers me most about how this breach is being discussed. Most of the conversation is about <em>what data was taken</em>. Almost none of it is about <em>why the door was open in the first place</em>.</p>
+
+    <p>I work inside a Canvas institution. I manage integrations. I understand how Canvas API access works. And when I look at the response signature — Instructure's primary containment action was rotating all application-level API credentials — I see a familiar architectural problem.</p>
+
+    <p><strong>The Canvas API trust model asks exactly one question:</strong></p>
+
+    <div class="pullquote">
+      <p>"Does this credential exist, and is it valid?"</p>
+    </div>
+
+    <p>That's it. It doesn't ask whether the credential holder is behaving consistently with what it's supposed to do. It doesn't ask whether the volume of data being requested is normal. It doesn't ask whether this request is coming from where it usually comes from. It doesn't alert the institution that something unusual is happening on their tenant.</p>
+
+    <p>If you have a valid token, the system holds the door open. Full stop.</p>
+
+    <p>ShinyHunters — or whoever actually executed this — didn't need to break anything. They needed a valid key. Once they had it, they looked exactly like a legitimate integration. The system was doing exactly what it was designed to do.</p>
+
+    <div class="callout">
+      <div class="callout-label">Important caveat</div>
+      <p>The precise attack vector for May 2026 has not been publicly disclosed by Instructure. No CVE has been assigned. What I'm describing is the architectural condition that makes credential-based attacks catastrophic when they succeed — not a confirmed forensic finding about this specific incident. The forensics will tell us the specifics. The architecture tells us why those specifics matter.</p>
+    </div>
+
+    <p>ShinyHunters' broader 2025–2026 campaign across multiple victims has been characterised by OAuth token abuse and social engineering of admin staff — turning legitimate API access into a data exfiltration pipeline. Whether or not that's exactly what happened here, the architectural vulnerability is the same: <strong>a stolen credential with broad, long-lived API access is nearly as powerful as the credential's legitimate owner.</strong></p>
+
+    <p>And here's the part that really matters: the exfiltration of 3.65TB of data — claimed or otherwise — takes time. It's not instantaneous. If there were any behavioural monitoring on that API access, if anyone was watching what integrations were doing with their Canvas access in real time, that exfiltration would have looked anomalous within minutes. Bulk reads across user messages, quiz banks, and course data at 2am don't look like Turnitin checking a submission.</p>
+
+    <p>Nobody was watching. Because there was nothing to watch with.</p>
+  </section>
+
+  <!-- SECTION 3: THE GAP -->
+  <section>
+    <div class="section-number">03 — The gap</div>
+    <h2>What exists. What doesn't.</h2>
+
+    <p>Before I propose anything, let me be honest about the landscape. I've done the market scan. Here's what actually exists and why it doesn't solve this specific problem.</p>
+
+    <div style="margin: 32px 0;">
+      <div class="market-row">
+        <div>
+          <div class="market-product">AppTrana / Indusface</div>
+          <div class="market-desc">API security with behavioural analysis for education</div>
+        </div>
+        <div class="market-verdict verdict-partial">PARTIAL</div>
+        <div class="market-why">General-purpose enterprise API security tool applied to education as a vertical. Not scoped to LMS integration patterns. Doesn't understand LTI 1.3, SIS sync behaviour, gradebook passback, or Canvas Data 2 traffic profiles.</div>
+      </div>
+      <div class="market-row">
+        <div>
+          <div class="market-product">Kong / Apigee</div>
+          <div class="market-desc">Enterprise API gateway and management</div>
+        </div>
+        <div class="market-verdict verdict-partial">PARTIAL</div>
+        <div class="market-why">Excellent infrastructure. Zero education sector context. An institution would need to build all the Canvas-specific behavioural rules themselves — which requires the domain knowledge most IT teams don't have.</div>
+      </div>
+      <div class="market-row">
+        <div>
+          <div class="market-product">SchoolDay</div>
+          <div class="market-desc">Zero-trust data exchange for K-12</div>
+        </div>
+        <div class="market-verdict verdict-partial">PARTIAL</div>
+        <div class="market-why">Solves SIS-to-SIS data exchange privacy for K-12. Different problem, different sector, different data flows entirely.</div>
+      </div>
+      <div class="market-row">
+        <div>
+          <div class="market-product">Purpose-built LMS API behavioural trust layer</div>
+          <div class="market-desc">For higher education Canvas integrations</div>
+        </div>
+        <div class="market-verdict verdict-no">DOESN'T EXIST</div>
+        <div class="market-why">Nothing on the market does this for the specific integration patterns of a higher education LMS tenant — LTI 1.3, SIS sync, gradebook passback, proctoring flows, Canvas Data 2 analytics pipelines — with institution-side visibility built in.</div>
+      </div>
+    </div>
+
+    <p>This is not a Canvas-specific gap. Blackboard, Moodle, and D2L run on the same architectural assumption. Canvas just happens to be the dominant platform, which is why this is the incident that exposed it at scale.</p>
+
+    <p>The gap isn't technical complexity. The tooling to build a behavioural proxy layer exists. The gap is that nobody has built it with the education sector's specific integration patterns and data sensitivity profile in mind — and nobody has made it something an institution can deploy without a security team the size of a Fortune 500 company.</p>
+  </section>
+
+  <!-- SECTION 4: THE PROPOSAL -->
+  <section>
+    <div class="section-number">04 — What I'm proposing</div>
+    <h2>A behavioural trust layer.<br/>Open-source. Institution-deployable.</h2>
+
+    <p>I'm calling it <strong>CanvasGuard</strong> for now — a working name, open to better ideas. The concept: a lightweight API proxy that sits between Canvas and all institutional integrations and does what the current trust model doesn't.</p>
+
+    <p>Five components. Here's what each one does and why it matters.</p>
+
+    <div style="margin-top: 40px;">
+
+      <div class="component">
+        <div class="component-num">01</div>
+        <div class="component-body">
+          <h3>Behavioural Envelope Enforcement</h3>
+          <p>Every integration — Turnitin, SIS sync, Panopto, Power Automate, custom scripts — gets a defined envelope. Which Canvas API endpoints it can call. What data types. What request volume. What time windows. Anything outside that envelope triggers automatic token suspension and an institution alert. Turnitin doesn't call the user messages endpoint. SIS sync doesn't read quiz question banks. A bulk read at 2am across multiple data types doesn't look like anything a legitimate integration does. Flag it. Stop it.</p>
+        </div>
+      </div>
+
+      <div class="component">
+        <div class="component-num">02</div>
+        <div class="component-body">
+          <h3>Short-Lived Scoped Tokens</h3>
+          <p>Replace long-lived, broad Canvas API tokens with session-scoped, endpoint-scoped tokens issued per request. A stolen token mid-session is worthless after that session expires. This collapses the window from weeks of undetected exfiltration to minutes — or less. Current Canvas tokens can persist indefinitely until manually revoked. That's not a reasonable security posture for systems processing student data at this scale.</p>
+        </div>
+      </div>
+
+      <div class="component">
+        <div class="component-num">03</div>
+        <div class="component-body">
+          <h3>Mutual Authentication</h3>
+          <p>mTLS between integrations and the proxy layer. Both sides prove identity, not just the client. A credential without the matching certificate gets nothing. This means a token stolen in isolation — without access to the integration's certificate — can't be used to impersonate that integration. The key and the lock have to match.</p>
+        </div>
+      </div>
+
+      <div class="component">
+        <div class="component-num">04</div>
+        <div class="component-body">
+          <h3>Institution-Side Audit Dashboard</h3>
+          <p>Real-time visibility into what every integration is doing on the institution's Canvas tenant. Right now, institutions wait for Instructure to tell them something is wrong. That's not acceptable when your student data is the thing being exfiltrated. The institution should know first — before Instructure, before the news, before the threat actor publishes their leak site post.</p>
+        </div>
+      </div>
+
+      <div class="component">
+        <div class="component-num">05</div>
+        <div class="component-body">
+          <h3>Anomaly Detection Layer</h3>
+          <p>Rule-based in v1 — the envelopes above give you the rules. ML-informed in v2, trained on normal integration behaviour patterns specific to higher education workflows. Academic calendars matter here. Exam periods look different from week 3 of semester. SIS sync volumes spike at enrolment cutoffs. The baseline isn't static — and the detection layer needs to know that.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">Honest about what this does and doesn't solve</div>
+      <p>This doesn't prevent credential theft. Social engineering is a human problem that will never be fully solved by architecture. What it does is make the stolen credential nearly worthless — collapsing the blast radius from weeks of undetected exfiltration to minutes before automatic suspension. The building is still breakable. It becomes not worth breaking into. That's the goal.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 5: WHY OPEN SOURCE -->
+  <section>
+    <div class="section-number">05 — Why open-source</div>
+    <h2>The code is the thesis.</h2>
+
+    <p>I'm not putting this behind a paywall or a vendor relationship. Here's why that would be the wrong move, and why open-source is the only model that makes sense for a security tool in this sector.</p>
+
+    <p><strong>Security tools that are closed-source face an immediate credibility wall with institutions and Instructure.</strong> If you can't read the code, you can't trust the code. In security, that's not a preference — it's a requirement. Open-source means the community can audit it, poke holes in it, and strengthen it publicly. Every critique that lands in the GitHub issues is free R&D.</p>
+
+    <p>Instructure can evaluate it without a procurement process. Universities can deploy it without a vendor relationship. Security researchers can review it without an NDA. That's the distribution model that gets traction in this sector — not a sales cycle.</p>
+
+    <p>The commercial layer — managed hosting, enterprise support, implementation services — sits on top of the open core if and when the time comes. That's the Red Hat model. The HashiCorp model before they changed course. Proven playbook.</p>
+
+    <p>But right now, that's not the point. The point is to get the right people looking at the right problem. This paper is step one. The repo is step two. Everything else follows from whether the thesis is right.</p>
+  </section>
+
+  <!-- SECTION 6: OPEN QUESTIONS -->
+  <section>
+    <div class="section-number">06 — Open questions</div>
+    <h2>What I don't know.<br/>What I need.</h2>
+
+    <p>I'm a learning technologies practitioner, not a security engineer. I know every LTI integration pattern, every Canvas data flow, and what a term break looks like in API traffic. I don't know the implementation details of a production-grade mTLS proxy. That's not false modesty — it's why I'm publishing this openly rather than quietly building something that looks like a security tool but has holes in it.</p>
+
+    <p>These are the questions I genuinely don't have answers to. If you do — reach out.</p>
+
+    <div style="margin: 32px 0;">
+      <div class="question">
+        <div class="question-marker">?</div>
+        <p>What's the right foundation for the proxy layer — a purpose-built FastAPI service, or an existing gateway like Kong with custom Canvas plugins? Trade-offs between control and maintenance burden.</p>
+      </div>
+      <div class="question">
+        <div class="question-marker">?</div>
+        <p>Canvas API rate limiting already exists at the platform level. How does the proxy layer interact with that without creating a double-throttling problem for legitimate high-volume integrations like SIS sync during enrolment periods?</p>
+      </div>
+      <div class="question">
+        <div class="question-marker">?</div>
+        <p>mTLS certificate management at institutional scale — what does that operationally look like for an institution with 50+ active Canvas integrations and an IT team without a dedicated PKI resource?</p>
+      </div>
+      <div class="question">
+        <div class="question-marker">?</div>
+        <p>The confirmed attack vector when Instructure's forensics are published — does it change the architectural priority order? I've assumed credential/token compromise based on the response signature. If the forensics show something different, some of this needs revisiting.</p>
+      </div>
+      <div class="question">
+        <div class="question-marker">?</div>
+        <p>LTI 1.3 uses its own authentication layer on top of OAuth — how does the proxy interact with LTI Advantage services (Deep Linking, Names and Roles, Assignment and Grade Services) without breaking the spec?</p>
+      </div>
+      <div class="question">
+        <div class="question-marker">?</div>
+        <p>Is there any prior art in the Instructure developer community I've missed? I've done the market scan but I'm one person — if something similar already exists I'd rather contribute to it than duplicate it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7: THE BIGGER PICTURE -->
+  <section>
+    <div class="section-number">07 — The bigger picture</div>
+    <h2>This isn't a Canvas problem.<br/>It's a sector problem.</h2>
+
+    <p>PowerSchool. January 2025. 62 million students. Infinite Campus. March 2026. Salesforce breach. Instructure Canvas. April 2026. Second breach in eight months.</p>
+
+    <p>There's a pattern here that the EdTech sector keeps refusing to look at directly. <strong>Education technology platforms are data goldmines with consumer-grade security budgets.</strong> They hold student PII, academic records, health disclosures, financial aid data, and increasingly — through Canvas messages and similar features — deeply personal communications that students share with advisors, accessibility services, and mental health supports.</p>
+
+    <p>The threat actors know this. ShinyHunters knows this. They price their extortion demands deliberately to make payment tempting relative to the reputational and regulatory cost of non-payment. It's an efficient criminal business model targeting the softest infrastructure in enterprise software.</p>
+
+    <p>The architectural assumption that credential validity equals trust is not unique to Canvas. It's how most EdTech APIs work. Canvas just happened to be the platform big enough that when it failed, 34 million people noticed.</p>
+
+    <div class="pullquote">
+      <p>"Identity is the new perimeter. And right now, education technology has almost no controls on what happens once identity is established."</p>
+    </div>
+
+    <p>I don't think the answer is for every institution to buy an enterprise API security platform and hire a security engineering team. Most universities don't have that budget or those people. The answer is something purpose-built for this sector, deployable by a team of two with reasonable operational overhead, and open enough that the community can make it better over time.</p>
+
+    <p>That's what I'm trying to start. Whether it becomes the thing that solves this or just the conversation that leads to the thing that solves this — both outcomes are worth the effort.</p>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <h2>Let's build this.</h2>
+    <p>If you're a security engineer, an EdTech practitioner, a Canvas admin, or someone who just lived through this week — I want to hear from you. Critique the thesis. Poke holes in the architecture. Tell me what I've missed.</p>
+    <div class="cta-links">
+      <a href="https://github.com/builtbyanwar" class="cta-link cta-primary">GitHub — @builtbyanwar</a>
+      <a href="https://linkedin.com/in/anwarbinumer" class="cta-link cta-secondary">LinkedIn — Let's talk</a>
+    </div>
+  </div>
+
+  <!-- AUTHOR -->
+  <div class="author-block">
+    <div class="author-dot">A</div>
+    <div>
+      <div class="author-name">Anwar BinUmer</div>
+      <p class="author-bio">LMS Functional Analyst (AI Systems & Automation) at Australian Catholic University. Building AceLern and Accuminate — AI products for the education sector. PhD, Rutgers University. Writing about the intersection of AI, automation, and EdTech infrastructure. The views here are mine, not my employer's.</p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-note">Published 8 May 2026 — Live incident. Will update as forensics emerge.</span>
+    <span class="footer-note">Share freely. Cite honestly.</span>
+  </footer>
+
+</div>
+</body>
+</html>
