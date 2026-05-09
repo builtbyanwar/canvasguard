@@ -637,7 +637,7 @@
       </div>
       <div class="data-row">
         <div class="data-label">Attack vector</div>
-        <div class="data-value"><strong>Not publicly disclosed.</strong> No CVE. No IOCs published. Instructure rotated all API application keys as primary containment action — consistent with credential/token compromise. <span class="unverified">INFERRED</span></div>
+        <div class="data-value"><strong>Not publicly disclosed.</strong> No CVE. No IOCs published. Security practitioners familiar with the incident suggest a vulnerability in Canvas's own codebase was exploited — not an API credential compromise. Instructure's credential rotation may have been precautionary containment rather than the primary fix. <span class="unverified">UNCONFIRMED — ACTIVELY REVISED</span></div>
       </div>
       <div class="data-row">
         <div class="data-label">Users affected (claimed)</div>
@@ -690,11 +690,11 @@
     <p>ShinyHunters — or whoever actually executed this — didn't need to break anything. They needed a valid key. Once they had it, they looked exactly like a legitimate integration. The system was doing exactly what it was designed to do.</p>
 
     <div class="callout">
-      <div class="callout-label">Important caveat</div>
-      <p>The precise attack vector for May 2026 has not been publicly disclosed by Instructure. No CVE has been assigned. What I'm describing is the architectural condition that makes credential-based attacks catastrophic when they succeed — not a confirmed forensic finding about this specific incident. The forensics will tell us the specifics. The architecture tells us why those specifics matter.</p>
+      <div class="callout-label">Important update — attack vector</div>
+      <p>Since this paper was first drafted, security practitioners familiar with the incident have indicated the May 2026 breach likely involved a vulnerability in Canvas's own codebase — not an API credential compromise as I initially inferred from Instructure's response signature. If confirmed, this changes the specific mechanics of this incident but not the thesis of this paper. The API behavioural trust gap described here is a separate and unsolved problem — one that becomes critical the next time a credential is compromised through phishing, a misconfigured integration, or a third-party vendor breach. Those vectors are common, quiet, and happening constantly without making headlines. This paper addresses that gap. It was always about the next breach, not just this one.</p>
     </div>
 
-    <p>ShinyHunters' broader 2025–2026 campaign across multiple victims has been characterised by OAuth token abuse and social engineering of admin staff — turning legitimate API access into a data exfiltration pipeline. Whether or not that's exactly what happened here, the architectural vulnerability is the same: <strong>a stolen credential with broad, long-lived API access is nearly as powerful as the credential's legitimate owner.</strong></p>
+    <p>Regardless of how ShinyHunters got in, the exfiltration of 3.65TB of data — claimed or otherwise — takes time. It's not instantaneous. If there were any behavioural monitoring on API access, if anyone was watching what integrations were doing with their Canvas access in real time, that activity would have looked anomalous. Bulk reads across user messages, quiz banks, and course data at 2am don't look like Turnitin checking a submission. The question of how they entered and the question of why nobody was watching are two different questions. This paper is about the second one.</p>
 
     <p>And here's the part that really matters: the exfiltration of 3.65TB of data — claimed or otherwise — takes time. It's not instantaneous. If there were any behavioural monitoring on that API access, if anyone was watching what integrations were doing with their Canvas access in real time, that exfiltration would have looked anomalous within minutes. Bulk reads across user messages, quiz banks, and course data at 2am don't look like Turnitin checking a submission.</p>
 
@@ -847,7 +847,7 @@
       </div>
       <div class="question">
         <div class="question-marker">?</div>
-        <p>The confirmed attack vector when Instructure's forensics are published — does it change the architectural priority order? I've assumed credential/token compromise based on the response signature. If the forensics show something different, some of this needs revisiting.</p>
+        <p>The confirmed attack vector when Instructure's forensics are published — practitioners I've spoken with suggest a codebase vulnerability rather than credential compromise. If that's confirmed, the behavioural trust layer proposed here becomes a complementary control, not the primary fix for this specific incident. Does that change the architectural priority order? What should move up?</p>
       </div>
       <div class="question">
         <div class="question-marker">?</div>
@@ -886,6 +886,7 @@
   <div class="cta-block">
     <h2>Let's build this.</h2>
     <p>If you're a security engineer, an EdTech practitioner, a Canvas admin, or someone who just lived through this week — I want to hear from you. Critique the thesis. Poke holes in the architecture. Tell me what I've missed.</p>
+    <p style="margin-top: 16px; font-size: 16px; color: #a09890;">And if you believe there's a genuine exploitable vulnerability in Canvas's API architecture — the right path is responsible disclosure via <strong style="color: #c8c0b4;">Instructure's HackerOne program</strong>, not a white paper. This isn't that. This is the architectural conversation that needs to happen regardless of how the forensics land.</p>
     <div class="cta-links">
       <a href="https://github.com/builtbyanwar" class="cta-link cta-primary">GitHub — @builtbyanwar</a>
       <a href="https://linkedin.com/in/anwarbinumer" class="cta-link cta-secondary">LinkedIn — Let's talk</a>
